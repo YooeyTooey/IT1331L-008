@@ -59,7 +59,7 @@
         <input type="number" id="speed" name="speed" max="2" min="0" placeholder="Enter speed...">
         <label for="pitch">Pitch:</label>
         <input type="number" id="pitch" name="pitch" max="2" min="0" placeholder="Enter pitch...">
-        <button>Generate Speech</button>
+        <button onclick="loadPlayer()">Generate Speech</button>
         <br />
         <div id="speech-player"></div>
         </div>
@@ -110,7 +110,18 @@
 
                 try {
                     const response = await fetch(url, options);
-                    const result = await response.json(); // Change from response.text() to response.json()
+
+                    if (!response.ok) {
+                        if (response.status === 400) {
+                            throw new Error('Incorrect request payload');
+                        } else if (response.status === 500) {
+                            throw new Error('Internal Server Error');
+                        } else {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                    }
+
+                    const result = await response.json();
                     console.log(result);
                     return result;
                 } catch (error) {
