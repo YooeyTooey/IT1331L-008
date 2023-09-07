@@ -79,6 +79,13 @@
                 console.log("Message =", message);
                 console.log("Speed =", speed);
                 console.log("Pitch =", pitch);
+
+                let response = await generateSpeech(voiceCode, speed, pitch,message);
+                console.log(response.result.audio_url);
+
+                const speechHTML = `<audio controls><source src="${response.result.audio_url}" type="audio/ogg"></audio>`;
+                document.getElementById('speech-player').innerHTML = speechHTML;
+
                 
             }
 
