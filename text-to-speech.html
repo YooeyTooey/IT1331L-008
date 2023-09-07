@@ -81,6 +81,35 @@
                 console.log("Pitch =", pitch);
                 
             }
+
+            async function generateSpeech(voiceCode, speed, pitch, message) 
+            {
+                const url = 'https://cloudlabs-text-to-speech.p.rapidapi.com/synthesize';
+                const options = {
+                method: 'POST',
+                headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'X-RapidAPI-Key': '3a7f608758msh7da18827dd6f836p1da5ecjsn311386ba67e5',
+                'X-RapidAPI-Host': 'cloudlabs-text-to-speech.p.rapidapi.com'
+                },
+                body: new URLSearchParams({
+                voice_code: voiceCode,
+                text: message,
+                speed: speed,
+                pitch: pitch,
+                output_type: 'audio_url'
+                })
+                };
+
+                try {
+                    const response = await fetch(url, options);
+                    const result = await response.json(); // Change from response.text() to response.json()
+                    console.log(result);
+                    return result;
+                } catch (error) {
+                    console.error(error);
+                }
+            }
         </script>
     </body>
 </html>
